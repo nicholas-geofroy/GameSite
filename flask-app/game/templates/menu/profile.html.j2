@@ -1,0 +1,17 @@
+{% extends 'base.html.j2' %}
+
+{% block header %}
+  <h1>{% block title %}Profile{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('profile.create_session') }}">New Lobby</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="profile_info">
+    <h1>Wins</h1>
+    <p class="value">{{ g.user['wins'] }}</p>
+    <h1>Losses</h1>
+    <p class="value">{{ g.user['wins'] }}</p>
+  </div>
+{% endblock %}
