@@ -1,9 +1,13 @@
 {% extends 'base.html.j2' %}
 
 {% block header %}
-  <h1>{% block title %}Profile{% endblock %}</h1>
+  <h1>{% block title %}{{current_user.name}}'s Profile{% endblock %}</h1>
   {% if g.user %}
-    <a class="action" href="{{ url_for('profile.create_session') }}">New Lobby</a>
+  <form method="post" action="{{url_for('lobby.create_session')}}" class="inline">
+    <button type="submit" name="submit_param" value="submit_value" class="link-button">
+      New Lobby
+    </button>
+  </form>
   {% endif %}
 {% endblock %}
 

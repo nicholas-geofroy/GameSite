@@ -7,6 +7,10 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'flask',
+        'flask', 'Click',
     ],
+    entry_points='''
+        [console_scripts]
+        game=game.main:cli
+    '''
 )

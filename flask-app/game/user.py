@@ -1,4 +1,4 @@
-from db import get_db
+from game.db import get_db
 
 
 class User():

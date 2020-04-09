@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, g, redirect, render_template, url_for, session
 )
-from flask_login import login_required
+from flask_login import login_required, current_user
 from game.db import get_db
 from flask_socketio import join_room
 
@@ -13,7 +13,7 @@ def join(data):
     print(g)
     print(session.get('id'))
     join_room(data['room'])
-    print(f"{g.user['username']} has entered the room {data['room']}")
+    print(f"{current_user.name} has entered the room {data['room']}")
 
 
 @bp.route('/sessions', methods=('POST',))

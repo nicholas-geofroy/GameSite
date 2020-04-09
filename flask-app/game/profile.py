@@ -13,9 +13,3 @@ bp = Blueprint('profile', __name__)
 @login_required
 def get_profile(id):
     return render_template('menu/profile.html.j2')
-
-
-@bp.route('/sessions', methods=('POST',))
-@login_required
-def create_session():
-    return render_template('menu/index.html.j2')
