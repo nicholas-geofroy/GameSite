@@ -7,3 +7,5 @@ app.config.from_mapping(
     SECRET_KEY='dev',
     DATABASE=os.path.join(app.instance_path, 'game.sqlite'),
 )
+
+print(os.path.join(app.instance_path, 'game.sqlite'))

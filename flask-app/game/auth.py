@@ -10,7 +10,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user, logout_user
 
 from game.db import get_db
-from user import User
+from game.user import User
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
