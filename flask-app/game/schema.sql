@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS session;
-DROP TABLE IF EXISTS in_session;
+DROP TABLE IF EXISTS inSession;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -11,14 +11,16 @@ CREATE TABLE user (
 );
 
 CREATE TABLE session (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  host_id INTEGER,
-  FOREIGN KEY (host_id) REFERENCES user (id)
+  sessionId TEXT,
+  hostId INTEGER,
+  PRIMARY KEY (sessionId, hostId)
+  FOREIGN KEY (hostID) REFERENCES user (id)
 );
 
-CREATE TABLE in_session (
-  session_id INTEGER,
-  user_id INTEGER,
-  FOREIGN KEY (session_id) REFERENCES session (id),
-  FOREIGN KEY (user_id) REFERENCES user(id)
+CREATE TABLE inSession (
+  sessionId TEXT,
+  userId INTEGER,
+  PRIMARY KEY (sessionId, userId)
+  FOREIGN KEY (sessionID) REFERENCES session (id),
+  FOREIGN KEY (userId) REFERENCES user(id)
 );

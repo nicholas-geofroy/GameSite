@@ -7,13 +7,13 @@ from flask.cli import with_appcontext
 from game.app import app
 import click
 from game.db import init_db_command
+from lobby import remove_user_from_session
 # ensure the instance folder exists
 
 cli = click.Group()
 
 
 @cli.command("init-db")
-@with_appcontext
 def init():
     """reset the database"""
     init_db_command()
@@ -35,7 +35,7 @@ def run():
 
     from game import profile
     app.register_blueprint(profile.bp)
-    app.add_url_rule('/', endpoint='index')
+    app.add_url_rule('/', endpoint='auth.login')
 
     from game import lobby
     app.register_blueprint(lobby.bp)
@@ -57,8 +57,13 @@ def run():
         else:
             return False  # not allowed here
 
+    @socketio.on('disconnect')
+    def test_disconnect():
+        print(f'user: {current_user.name} disconnected')
+        # if current_user.room is None:
+            # remove_user_from_session(current_user.room, current_user)
 
-    socketio.on_event("join", lobby.join)
+    socketio.on_event("join_room", lobby.join)
 
     socketio.run(app, debug=True)
 

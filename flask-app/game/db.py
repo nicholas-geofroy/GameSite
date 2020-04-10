@@ -1,12 +1,13 @@
 import sqlite3
 
 import click
+from game.app import app
 from flask import current_app, g
-from flask.cli import with_appcontext
 
 
 def get_db():
     if 'db' not in g:
+        print(f"connect, database: {current_app.config['DATABASE']}")
         g.db = sqlite3.connect(
             current_app.config['DATABASE'],
             detect_types=sqlite3.PARSE_DECLTYPES
@@ -23,10 +24,12 @@ def close_db(e=None):
 
 
 def init_db():
-    db = get_db()
+    with app.app_context():
+        db = get_db()
 
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
+        with app.open_resource('schema.sql') as f:
+            db.executescript(f.read().decode('utf8'))
+        db.commit()
 
 
 # @click.command('init-db')

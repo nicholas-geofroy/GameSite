@@ -8,4 +8,4 @@ app.config.from_mapping(
     DATABASE=os.path.join(app.instance_path, 'game.sqlite'),
 )
 
-print(os.path.join(app.instance_path, 'game.sqlite'))
+print(f'db path: {os.path.join(app.instance_path, "game.sqlite")}')

@@ -4,8 +4,18 @@
 <script type="text/javascript" charset="utf-8">
     var socket = io();
     socket.on('connect', function() {
-        socket.emit('join', {
+        socket.emit('join_room', {
           room: '{{ room }}'
+        });
+    });
+    socket.on('user_updates', function(users) {
+        console.log(users);
+        var list = document.getElementById("player_list")
+        list.innerHTML = ""
+        users.forEach((user, i) => {
+          var node = document.createElement("li")
+          node.appendChild(document.createTextNode(user.name))
+          list.appendChild(node)
         });
     });
 </script>
@@ -15,5 +25,6 @@
 {% endblock %}
 
 {% block content %}
-  <h2>lobby</h2>
+  <h2>Players</h2>
+  <ul id="player_list"></ul>
 {% endblock %}
