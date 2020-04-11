@@ -1,33 +1,41 @@
-from game.db import get_db
+from game.app import db
+from werkzeug.security import generate_password_hash
+import json
 
 
-class User():
-    def __init__(self, id, name):
-        self.id = id
-        self.authenticated = False
-        self.name = name
-        self.room = None
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+    is_authenticated = db.Column(db.Boolean, nullable=False)
+    is_active = db.Column(db.Boolean, nullable=False)
+    is_anonymous = db.Column(db.Boolean, nullable=False)
+    session_id = db.Column(db.Integer, db.ForeignKey('session.id'), nullable=True)
 
-    def is_authenticated(self):
-        return self.authenticated
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        self.is_authenticated = False
+        self.is_active = True
+        self.is_anonymous = False
 
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
+    def __repr__(self):
+        return '<User %r>' % self.username
 
     def get_id(self):
         return self.id
 
     def get(user_id):
         print("get: user_id:" + str(user_id))
-        userObj = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
-        get_db().commit()
+        return User.query.filter_by(id=user_id).first()
 
-        if userObj is None:
-            return userObj
+    def to_dict(self):
+        return {
+            "username": self.username,
+            "session_id": self.session_id
+        }
 
-        return User(userObj['id'], userObj['username'])
+    def new(username, password):
+        new_user = User(username=username, password=generate_password_hash(password))
+        db.session.add(new_user)
+        db.session.commit()
+        return new_user

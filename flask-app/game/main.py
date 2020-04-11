@@ -2,12 +2,9 @@ import os
 from flask_socketio import SocketIO
 from flask_login import LoginManager, current_user
 from game.user import User
-from game.db import get_db
-from flask.cli import with_appcontext
 from game.app import app
+from db import init_db_command
 import click
-from game.db import init_db_command
-from lobby import remove_user_from_session
 # ensure the instance folder exists
 
 cli = click.Group()
@@ -27,8 +24,8 @@ def run():
     except OSError:
         pass
 
-    from game import db
-    db.init_app(app)
+    from game.app import db
+    db.create_all()
 
     from game import auth
     app.register_blueprint(auth.bp)
@@ -53,15 +50,13 @@ def run():
     @socketio.on('connect')
     def connect_handler():
         if current_user.is_authenticated:
-            print(f'user {current_user.name} is connected')
+            print(f'user {current_user.username} is connected')
         else:
             return False  # not allowed here
 
     @socketio.on('disconnect')
     def test_disconnect():
-        print(f'user: {current_user.name} disconnected')
-        # if current_user.room is None:
-            # remove_user_from_session(current_user.room, current_user)
+        print(f'user: {current_user.username} disconnected')
 
     socketio.on_event("join_room", lobby.join)
 

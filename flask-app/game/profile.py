@@ -4,7 +4,6 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from flask_login import login_required
-from game.db import get_db
 
 bp = Blueprint('profile', __name__)
 
