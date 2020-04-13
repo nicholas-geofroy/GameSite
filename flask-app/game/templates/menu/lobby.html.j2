@@ -1,24 +1,29 @@
 {% extends 'base.html.j2' %}
+{% import 'chat.html.j2' as chat %}
 
 {% block scripts %}
 <script type="text/javascript" charset="utf-8">
-    var socket = io();
-    socket.on('connect', function() {
-        socket.emit('join_room', {
-          room: '{{ room }}'
-        });
-    });
-    socket.on('user_updates', function(users) {
-        console.log(users);
-        var list = document.getElementById("player_list")
-        list.innerHTML = ""
-        users.forEach((user, i) => {
-          var node = document.createElement("li")
-          node.appendChild(document.createTextNode(user.username))
-          list.appendChild(node)
-        });
-    });
+    const socket = io();
+    document.addEventListener('DOMContentLoaded', function() {
+      socket.on('connect', function() {
+          socket.emit('join_room', {
+            room: '{{ room }}'
+          });
+      });
+
+      socket.on('user_updates', function(users) {
+          console.log(users);
+          var list = document.getElementById("player_list")
+          list.innerHTML = ""
+          users.forEach((user, i) => {
+            var node = document.createElement("li")
+            node.appendChild(document.createTextNode(user.username))
+            list.appendChild(node)
+          });
+      });
+    })
 </script>
+{{ chat.javascript() }}
 {% endblock %}
 {% block header %}
   <h1>{% block title %}Lobby{% endblock %}</h1>
@@ -27,4 +32,9 @@
 {% block content %}
   <h2>Players</h2>
   <ul id="player_list"></ul>
+  <form>
+    <input type="submit" value="Start Game" />
+  </form>
+  <h2>Chat</h2>
+  {{ chat.chatbox() }}
 {% endblock %}

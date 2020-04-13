@@ -1,8 +1,8 @@
 from flask import (
-    Blueprint, g, redirect, render_template, url_for
+    Blueprint, redirect, render_template, url_for
 )
 from flask_login import login_required, current_user
-from flask_socketio import join_room, emit
+from flask_socketio import join_room, emit, leave_room
 from game.user import User
 from game.session import Session
 from game.app import db
@@ -10,14 +10,34 @@ from game.app import db
 bp = Blueprint('lobby', __name__)
 
 
+def init(socketio):
+    socketio.on_event('join_room', join)
+    socketio.on_event('leave_lobby', leave)
+
+
 def join(data):
     room = data['room']
     print(f"{current_user.username} joins room {room}")
-    join_room(room)
     add_user_to_session(room, current_user)
-    users_in_session = get_users_in_session(room)
+    join_room(current_user.session_id)
+    update_users_in_session(current_user.session_id)
+
+
+def update_users_in_session(session_id):
+    users_in_session = get_users_in_session(session_id)
     print(f"users currently in the room: {users_in_session}")
-    emit('user_updates', [user.to_dict() for user in users_in_session], room)
+
+    emit('user_updates',
+         [user.to_dict() for user in users_in_session],
+         session_id)
+
+
+def leave():
+    to_leave = current_user.session_id
+    print(f"{current_user} leaves the room {to_leave}")
+    leave_room(room=to_leave)
+    remove_user_from_session(current_user)
+    update_users_in_session(to_leave)
 
 
 @bp.route('/sessions', methods=('POST',))
@@ -42,8 +62,8 @@ def add_user_to_session(session_id, user):
     db.session.commit()
 
 
-def remove_user_from_session(session_id, user):
-    current_user.session = None
+def remove_user_from_session(user):
+    user.session = None
     db.session.commit()
 
 

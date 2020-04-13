@@ -1,6 +1,5 @@
 from game.app import db
 from werkzeug.security import generate_password_hash
-import json
 
 
 class User(db.Model):

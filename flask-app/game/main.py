@@ -57,8 +57,14 @@ def run():
     @socketio.on('disconnect')
     def test_disconnect():
         print(f'user: {current_user.username} disconnected')
+        current_user.session = None
+        db.session.commit()
 
-    socketio.on_event("join_room", lobby.join)
+    from chat import init as init_chat
+    init_chat(socketio)
+
+    from lobby import init as init_lobby
+    init_lobby(socketio)
 
     socketio.run(app, debug=True)
 
