@@ -9,6 +9,7 @@ CREATE TABLE user (
   is_authenticated BOOLEAN,
   is_active BOOLEAN,
   is_anonymous BOOLEAN,
+  socketio_id TEXT,
   wins INTEGER,
   losses INTEGER
 );

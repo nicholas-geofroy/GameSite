@@ -1,0 +1,29 @@
+cards with 5 taboo words and the word that has to be explained
+players - 4 - 10
+turn timer - (can be configurable probably)
+teams: 2
+
+each team has a "giver" who attemps to prompt his or her teammates to guess as
+many keywords as possible in the alloted time
+
+the opposing team has a censor whocan
+
+scoreboard
+
+
+
+DATABASE
+
+game - table with the game information (some set by user in lobby and some set as game progresses)
+  - id - unique identifier
+  - type - type of the game (should be one of the supported games)
+  - num Players - set in lobby
+  - num teams (should be nullable if there are no teams) - set in lobby
+  - teams - teams that have been created for the game
+  - game_state - serialized json object representing game state (potentially)
+
+team - represents a team in a game
+  - id - team id
+  - game - game this team is a part of
+  - name - customizable team name
+  - members - link to the users that are on this team

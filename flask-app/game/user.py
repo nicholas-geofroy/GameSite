@@ -6,9 +6,15 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
+
+    wins = db.Column(db.Integer, nullable=False)
+    losses = db.Column(db.Integer, nullable=False)
+
     is_authenticated = db.Column(db.Boolean, nullable=False)
     is_active = db.Column(db.Boolean, nullable=False)
     is_anonymous = db.Column(db.Boolean, nullable=False)
+
+    socketio_id = db.Column(db.Text, nullable=True)
     session_id = db.Column(db.Integer, db.ForeignKey('session.id'), nullable=True)
 
     def __init__(self, **kwargs):

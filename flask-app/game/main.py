@@ -4,6 +4,7 @@ from flask_login import LoginManager, current_user
 from game.user import User
 from game.app import app
 from db import init_db_command
+from flask import request
 import click
 # ensure the instance folder exists
 
@@ -50,13 +51,16 @@ def run():
     @socketio.on('connect')
     def connect_handler():
         if current_user.is_authenticated:
-            print(f'user {current_user.username} is connected')
+            print(f'user {current_user.username} is connected to {request.sid}')
+            current_user.socketio_id = request.sid
+            db.session.commit()
         else:
             return False  # not allowed here
 
     @socketio.on('disconnect')
     def test_disconnect():
         print(f'user: {current_user.username} disconnected')
+        current_user.socketio_id = None
         current_user.session = None
         db.session.commit()
 
