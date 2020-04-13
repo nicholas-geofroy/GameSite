@@ -1,5 +1,4 @@
 {% extends 'base.html.j2' %}
-{% import 'chat.html.j2' as chat %}
 
 {% block scripts %}
 <script type="text/javascript" charset="utf-8">
@@ -23,7 +22,6 @@
       });
     })
 </script>
-{{ chat.javascript() }}
 {% endblock %}
 {% block header %}
   <h1>{% block title %}Lobby{% endblock %}</h1>
@@ -36,5 +34,5 @@
     <input type="submit" value="Start Game" />
   </form>
   <h2>Chat</h2>
-  {{ chat.chatbox() }}
+  <div id="chat_window"></div>
 {% endblock %}
