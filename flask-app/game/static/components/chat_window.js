@@ -62,7 +62,9 @@ var ChatWindow = function (_React$Component2) {
     }
   }, {
     key: 'componentWillUnmount',
-    value: function componentWillUnmount() {}
+    value: function componentWillUnmount() {
+      socket.off('message', this.newMessage);
+    }
   }, {
     key: 'handleChange',
     value: function handleChange(event) {
@@ -98,6 +100,11 @@ var ChatWindow = function (_React$Component2) {
         'div',
         { id: 'chatbox' },
         React.createElement(
+          'h3',
+          null,
+          ' Chat '
+        ),
+        React.createElement(
           'div',
           { id: 'messages' },
           messageItems
@@ -115,6 +122,3 @@ var ChatWindow = function (_React$Component2) {
 
   return ChatWindow;
 }(React.Component);
-
-var domContainer = document.querySelector('#chat_window');
-ReactDOM.render(e(ChatWindow), domContainer);

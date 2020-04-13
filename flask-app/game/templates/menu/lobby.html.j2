@@ -9,17 +9,6 @@
             room: '{{ room }}'
           });
       });
-
-      socket.on('user_updates', function(users) {
-          console.log(users);
-          var list = document.getElementById("player_list")
-          list.innerHTML = ""
-          users.forEach((user, i) => {
-            var node = document.createElement("li")
-            node.appendChild(document.createTextNode(user.username))
-            list.appendChild(node)
-          });
-      });
     })
 </script>
 {% endblock %}
@@ -28,11 +17,7 @@
 {% endblock %}
 
 {% block content %}
-  <h2>Players</h2>
-  <ul id="player_list"></ul>
-  <form>
-    <input type="submit" value="Start Game" />
-  </form>
-  <h2>Chat</h2>
-  <div id="chat_window"></div>
+  <div id="main">
+
+  </div>
 {% endblock %}

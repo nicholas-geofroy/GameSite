@@ -25,6 +25,7 @@ class ChatWindow extends React.Component {
   }
 
   componentWillUnmount() {
+    socket.off('message', this.newMessage)
   }
 
   handleChange(event) {
@@ -54,6 +55,7 @@ class ChatWindow extends React.Component {
     );
     return (
       <div id="chatbox">
+        <h3> Chat </h3>
         <div id="messages">
           {messageItems}
         </div>
@@ -66,6 +68,3 @@ class ChatWindow extends React.Component {
     );
   }
 }
-
-const domContainer = document.querySelector('#chat_window');
-ReactDOM.render(e(ChatWindow), domContainer);
