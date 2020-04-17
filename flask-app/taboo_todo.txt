@@ -6,7 +6,7 @@ teams: 2
 each team has a "giver" who attemps to prompt his or her teammates to guess as
 many keywords as possible in the alloted time
 
-the opposing team has a censor whocan
+the opposing team has a censor who can stop a card if the giver has used a banned word
 
 scoreboard
 
@@ -27,3 +27,24 @@ team - represents a team in a game
   - game - game this team is a part of
   - name - customizable team name
   - members - link to the users that are on this team
+
+
+
+state:
+ {
+  turn_no: int, // team whose turn it is can be calculated as turn_no % num_teams
+                // can also calculate which player is which role on the team based on turn
+  card_shuffle_seed: int, //seed for shuffle algo so we can pick the next card properly
+  card_idx: int, //index of the card we are showing
+ }
+
+
+taboo data can be stored in a json file for simplicity
+{
+  words: [
+    {
+      target_word: string,
+      banned_words: ["str1", "str2"]
+    }
+  ]
+}

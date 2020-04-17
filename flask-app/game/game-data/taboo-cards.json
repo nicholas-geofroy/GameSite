@@ -1,0 +1,8 @@
+{
+  "cards":[
+    {
+      "target_word":"Green Tea",
+      "banned_words":["Drink","Soft Drink","Caffene","China","Cold"]
+    }
+  ]
+}

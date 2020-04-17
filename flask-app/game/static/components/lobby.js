@@ -24,6 +24,7 @@ var Lobby = function (_React$Component) {
         "div",
         { id: "lobbyContent" },
         React.createElement(UserList, null),
+        React.createElement(GameSettings, null),
         React.createElement(
           "form",
           null,

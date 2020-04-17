@@ -31,6 +31,7 @@ def init_db():
 
         with app.open_resource('schema.sql') as f:
             db.executescript(f.read().decode('utf8'))
+
         db.commit()
 #
 #

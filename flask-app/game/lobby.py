@@ -3,8 +3,8 @@ from flask import (
 )
 from flask_login import login_required, current_user
 from flask_socketio import join_room, emit, leave_room
-from game.user import User
-from game.session import Session
+from game.models.user import User
+from game.models.session import Session
 from game.app import db
 
 bp = Blueprint('lobby', __name__)

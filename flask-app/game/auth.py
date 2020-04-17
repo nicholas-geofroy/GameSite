@@ -4,11 +4,11 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, logout_user
 
 from werkzeug.security import check_password_hash
 from game.app import db
-from game.user import User
+from game.models.user import User
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 

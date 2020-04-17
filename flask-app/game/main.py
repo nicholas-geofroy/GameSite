@@ -1,7 +1,8 @@
 import os
 from flask_socketio import SocketIO
 from flask_login import LoginManager, current_user
-from game.user import User
+from game.models.user import User
+from game.models.team import Team
 from game.app import app
 from db import init_db_command
 from flask import request
