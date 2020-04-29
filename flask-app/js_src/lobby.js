@@ -6,9 +6,6 @@ class Lobby extends React.Component {
       <div id="lobbyContent">
         <UserList />
         <GameSettings />
-        <form>
-          <input type="submit" value="Start Game" />
-        </form>
         <ChatWindow />
       </div>
     );

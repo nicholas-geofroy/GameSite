@@ -28,7 +28,7 @@ var GameSettings = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (GameSettings.__proto__ || Object.getPrototypeOf(GameSettings)).call(this, props));
 
     _this.state = {
-      gameMode: gamemodes.TABOO.value
+      gamemode: gamemodes.TABOO.value
     };
     _this.handleGamemodeSelect = _this.handleGamemodeSelect.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
@@ -45,12 +45,18 @@ var GameSettings = function (_React$Component) {
     key: "handleGamemodeSelect",
     value: function handleGamemodeSelect(event) {
       this.setState({
-        gameMode: event.target.value
+        gamemode: event.target.value
       });
     }
   }, {
     key: "handleSubmit",
     value: function handleSubmit(event) {
+      console.log("submit settings and start game");
+      var message = {
+        type: 'start_game',
+        gamemode: this.state.gamemode
+      };
+      socket.emit('game_updates', message);
       event.preventDefault();
     }
   }, {
@@ -71,7 +77,8 @@ var GameSettings = function (_React$Component) {
           "select",
           { id: "gamemode", form: "gameSettings", onChange: this.handleGamemodeSelect },
           options
-        )
+        ),
+        React.createElement("input", { type: "submit", value: "Start Game" })
       );
     }
   }]);

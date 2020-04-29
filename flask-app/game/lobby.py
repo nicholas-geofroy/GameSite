@@ -43,7 +43,7 @@ def leave():
 @bp.route('/sessions', methods=('POST',))
 @login_required
 def create_session():
-    game = Session()
+    game = Session(game_id=None)
     db.session.add(game)
     db.session.commit()
     print(f"created session: {game.id} for user: {current_user.username}")

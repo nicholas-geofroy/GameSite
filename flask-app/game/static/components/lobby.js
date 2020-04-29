@@ -18,18 +18,13 @@ var Lobby = function (_React$Component) {
   }
 
   _createClass(Lobby, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { id: "lobbyContent" },
+        'div',
+        { id: 'lobbyContent' },
         React.createElement(UserList, null),
         React.createElement(GameSettings, null),
-        React.createElement(
-          "form",
-          null,
-          React.createElement("input", { type: "submit", value: "Start Game" })
-        ),
         React.createElement(ChatWindow, null)
       );
     }

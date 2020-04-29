@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS inSession;
 DROP TABLE IF EXISTS session;
 DROP TABLE IF EXISTS game;
 DROP TABLE IF EXISTS team;
@@ -19,6 +20,7 @@ CREATE TABLE user (
 
 CREATE TABLE session (
   id INTEGER,
+  game_id INTEGER,
   PRIMARY KEY (id)
 );
 

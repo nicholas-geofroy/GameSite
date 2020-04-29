@@ -1,5 +1,5 @@
 from flask_login import current_user
-from flask_socketio import emit, join_room
+from flask_socketio import emit
 
 
 def init(socketio):

@@ -11,6 +11,10 @@ class Game(ABC):
     def type():
         pass
 
+    @abstractmethod
+    def init(settings):
+        pass
+
     def from_state(state):
         for game in Game.games:
             if game.type == state.type:

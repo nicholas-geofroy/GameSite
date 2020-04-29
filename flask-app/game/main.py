@@ -71,6 +71,9 @@ def run():
     from lobby import init as init_lobby
     init_lobby(socketio)
 
+    from game_updates import init as init_game
+    init_game(socketio)
+
     socketio.run(app, debug=True)
 
 
