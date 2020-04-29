@@ -1,0 +1,2 @@
+npx babel --watch js_src --out-dir game/static/components --presets react-app/prod
+python game/main.py run-server 
