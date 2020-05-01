@@ -3,6 +3,7 @@ from game.models.game import GameTypes
 from game.games.taboo.taboo_events import handle_event
 from games.taboo.taboo import Taboo
 from game.models.user import User
+from game.games.game_models import Player
 from flask_socketio import emit
 
 
@@ -12,15 +13,12 @@ def init(socketio):
 
 def send_game_message(user_id, message):
     user = User.get_id(user_id)
-    if current_user.session_id != user.session_id:
-        return
-
     emit('game_updates', message, room=user.socketio_id)
 
 
 def start_game(settings):
-    print(f"start the game with settings: {settings}")
-    players = current_user.session.members
+    players = [Player(member.id, member.username) for member in current_user.session.members]
+    print(f"start the game with settings: {settings}, players {players}")
     game_type = settings['gamemode']
     if game_type == Taboo.type() and Taboo.validate(players):
         return Taboo.init(settings, players)

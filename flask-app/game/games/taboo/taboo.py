@@ -1,5 +1,5 @@
 from game.games.game import Game as BaseGame
-from game.models.game import Game
+from game.models.game import Game, GameTypes
 from game.app import db
 from game.gameData.data import taboo_cards
 import random
@@ -19,16 +19,17 @@ class Card:
 class TabooState:
     def __init__(self, **kwargs):
         if "prev_state" not in kwargs:
-            print(f"init taboo state with {len(taboo_cards)} cards")
+            print(f"init taboo state with {taboo_cards} cards")
+            ordering = [x for x in range(len(taboo_cards))]
+            random.Random().shuffle(ordering)
             self.context = {
                 'turn': 0,
                 'players': kwargs['players'],
                 'points': [0, 0],
                 'cur_card': 0,
-                'order': random.Random().shuffle(
-                    [x for x in range(len(taboo_cards))]
-                )
+                'order': ordering
             }
+            print(f"ordering {self.context['order']}")
         else:
             self.context = kwargs["prev_state"]
 
@@ -85,7 +86,7 @@ class TabooState:
                 'players': players
             },
             'giver_state': {
-                'card': taboo_cards[self.order[self]]
+                'card': self.get_current_card()
             }
         }
 
@@ -106,9 +107,10 @@ class Taboo(BaseGame):
     def init(settings, players):
         # get players and place on teams
         teams = Taboo.split_players(players)
+        print(f"create teams {teams}")
         new_state = TabooState(players=teams)
         new_game = Game(
-            type=type,
+            type=GameTypes.TABOO,
             num_players=4,
             num_teams=2,
             game_state=json.dumps(new_state.as_dict())
