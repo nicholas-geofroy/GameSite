@@ -73,12 +73,13 @@ var ChatWindow = function (_React$Component2) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
+      event.preventDefault();
       console.log('Send message: ' + this.state.newMessage);
+      if (this.props.onSubmitWord != undefined) this.props.onSubmitWord(this.state.newMessage);
       socket.emit('send_message', this.state.newMessage);
       this.setState({
         newMessage: ''
       });
-      event.preventDefault();
     }
   }, {
     key: 'newMessage',

@@ -11,6 +11,3 @@ class Lobby extends React.Component {
     );
   }
 }
-
-const domContainer = document.querySelector('#main');
-ReactDOM.render(<Lobby />, domContainer);

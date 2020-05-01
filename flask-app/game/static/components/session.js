@@ -8,27 +8,42 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Lobby = function (_React$Component) {
-  _inherits(Lobby, _React$Component);
+var Session = function (_React$Component) {
+  _inherits(Session, _React$Component);
 
-  function Lobby() {
-    _classCallCheck(this, Lobby);
+  function Session(props) {
+    _classCallCheck(this, Session);
 
-    return _possibleConstructorReturn(this, (Lobby.__proto__ || Object.getPrototypeOf(Lobby)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Session.__proto__ || Object.getPrototypeOf(Session)).call(this, props));
+
+    _this.handleGameUpdate = _this.handleGameUpdate.bind(_this);
+    return _this;
   }
 
-  _createClass(Lobby, [{
-    key: "render",
+  _createClass(Session, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      socket.on('game_updates', this.handleGameUpdate);
+    }
+  }, {
+    key: 'handleGameUpdate',
+    value: function handleGameUpdate(message) {
+      console.log("Recieved message");
+      console.log(message);
+    }
+  }, {
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { id: "lobbyContent" },
-        React.createElement(UserList, null),
-        React.createElement(GameSettings, null),
-        React.createElement(ChatWindow, null)
+        'div',
+        { id: 'session' },
+        React.createElement(Lobby, null)
       );
     }
   }]);
 
-  return Lobby;
+  return Session;
 }(React.Component);
+
+var domContainer = document.querySelector('#main');
+ReactDOM.render(React.createElement(Session, null), domContainer);
