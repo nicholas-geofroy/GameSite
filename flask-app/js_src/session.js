@@ -3,6 +3,7 @@
 class Session extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {}
     this.handleGameUpdate = this.handleGameUpdate.bind(this);
   }
   componentDidMount() {
@@ -12,14 +13,32 @@ class Session extends React.Component {
   handleGameUpdate(message) {
     console.log("Recieved message");
     console.log(message);
+    this.setState({
+      'teams':message.players,
+      'giverId':message.giver
+    })
+
   }
 
   render() {
-    return (
-      <div id="session">
-        <Lobby />
-      </div>
-    );
+    const teams = this.state.teams
+
+    if(!teams || teams.length == 0) {
+      return (
+        <div id="session">
+          <Lobby />
+        </div>
+      );
+    } else {
+      const team_elemets = teams.map((players, pos) => {
+        return <Team players={players} name={pos + 1} key={pos} id={pos} giverId={this.state.giverId}/>
+      })
+      return (
+        <div id="session">
+          <div id="teams">{team_elemets}</div>
+        </div>
+      )
+    }
   }
 }
 

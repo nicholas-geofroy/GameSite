@@ -16,6 +16,7 @@ var Session = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Session.__proto__ || Object.getPrototypeOf(Session)).call(this, props));
 
+    _this.state = {};
     _this.handleGameUpdate = _this.handleGameUpdate.bind(_this);
     return _this;
   }
@@ -30,15 +31,38 @@ var Session = function (_React$Component) {
     value: function handleGameUpdate(message) {
       console.log("Recieved message");
       console.log(message);
+      this.setState({
+        'teams': message.players,
+        'giverId': message.giver
+      });
     }
   }, {
     key: 'render',
     value: function render() {
-      return React.createElement(
-        'div',
-        { id: 'session' },
-        React.createElement(Lobby, null)
-      );
+      var _this2 = this;
+
+      var teams = this.state.teams;
+
+      if (!teams || teams.length == 0) {
+        return React.createElement(
+          'div',
+          { id: 'session' },
+          React.createElement(Lobby, null)
+        );
+      } else {
+        var team_elemets = teams.map(function (players, pos) {
+          return React.createElement(Team, { players: players, name: pos + 1, key: pos, id: pos, giverId: _this2.state.giverId });
+        });
+        return React.createElement(
+          'div',
+          { id: 'session' },
+          React.createElement(
+            'div',
+            { id: 'teams' },
+            team_elemets
+          )
+        );
+      }
     }
   }]);
 
