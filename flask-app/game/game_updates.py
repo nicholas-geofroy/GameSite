@@ -12,7 +12,8 @@ def init(socketio):
 
 
 def send_game_message(user_id, message):
-    user = User.get_id(user_id)
+    user = User.get(user_id)
+    print(f'sending message to {user}')
     emit('game_updates', message, room=user.socketio_id)
 
 
@@ -20,10 +21,11 @@ def start_game(settings):
     players = [Player(member.id, member.username) for member in current_user.session.members]
     print(f"start the game with settings: {settings}, players {players}")
     game_type = settings['gamemode']
+    messages = []
     if game_type == Taboo.type() and Taboo.validate(players):
-        return Taboo.init(settings, players)
-    else:
-        return []
+        messages = Taboo.init(settings, players)
+    return [(message[0], {**message[1], 'type': 'start_game'})
+            for message in messages]
 
 
 def game_event(message, cur_game):

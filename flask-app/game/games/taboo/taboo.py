@@ -34,7 +34,7 @@ class TabooState:
             self.context = kwargs["prev_state"]
 
     def get_players(self):
-        return [player for player in [team for team in self.context['players']]]
+        return [player for team in self.context['players'] for player in team]
 
     def get_current_team_idx(self):
         return self.context['turn'] % 2
@@ -121,7 +121,7 @@ class Taboo(BaseGame):
 
     def get_messages(state):
         messages = []
-        giver_id = state.get_giver()
+        giver_id = state.get_giver().id
         user_messages = state.get_player_states()
         shared_state = user_messages['shared_state']
         messages.append((giver_id, {
@@ -130,8 +130,8 @@ class Taboo(BaseGame):
         }))
 
         for player in state.get_players():
-            if player != giver_id:
-                messages.append((player, shared_state))
+            if player.id != giver_id:
+                messages.append((player.id, shared_state))
 
         return messages
 
