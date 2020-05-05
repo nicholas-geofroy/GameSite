@@ -82,7 +82,7 @@ class TabooState:
 
         return {
             'shared_state': {
-                'giver': players[cur_team_idx][cur_giver_idx].id,
+                'giver': players[cur_team_idx][cur_giver_idx]['id'],
                 'players': players
             },
             'giver_state': {
@@ -117,11 +117,12 @@ class Taboo(BaseGame):
         )
         db.session.add(new_game)
         db.session.commit()
-        return Taboo.get_messages(new_state)
+        return Taboo.get_messages(new_state), new_game
 
     def get_messages(state):
         messages = []
-        giver_id = state.get_giver().id
+        print(state.get_giver())
+        giver_id = state.get_giver()['id']
         user_messages = state.get_player_states()
         shared_state = user_messages['shared_state']
         messages.append((giver_id, {
@@ -130,8 +131,8 @@ class Taboo(BaseGame):
         }))
 
         for player in state.get_players():
-            if player.id != giver_id:
-                messages.append((player.id, shared_state))
+            if player['id'] != giver_id:
+                messages.append((player['id'], shared_state))
 
         return messages
 

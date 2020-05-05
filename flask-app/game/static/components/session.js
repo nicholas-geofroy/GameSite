@@ -18,6 +18,7 @@ var Session = function (_React$Component) {
 
     _this.state = {};
     _this.handleGameUpdate = _this.handleGameUpdate.bind(_this);
+    _this.makeGuess = _this.makeGuess.bind(_this);
     return _this;
   }
 
@@ -25,6 +26,9 @@ var Session = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       socket.on('game_updates', this.handleGameUpdate);
+      socket.emit('game_updates', {
+        'type': 'request_state'
+      });
     }
   }, {
     key: 'handleGameUpdate',
@@ -33,7 +37,23 @@ var Session = function (_React$Component) {
       console.log(message);
       this.setState({
         'teams': message.players,
-        'giverId': message.giver
+        'giverId': message.giver,
+        'card': message.card
+      });
+    }
+  }, {
+    key: 'requestNextCard',
+    value: function requestNextCard() {
+      socket.emit('game_updates', {
+        'type': 'next_card'
+      });
+    }
+  }, {
+    key: 'makeGuess',
+    value: function makeGuess(message) {
+      socket.emit('game_updates', {
+        'type': 'guess_word',
+        'guess': message
       });
     }
   }, {
@@ -60,7 +80,9 @@ var Session = function (_React$Component) {
             'div',
             { id: 'teams' },
             team_elemets
-          )
+          ),
+          React.createElement(Card, { data: this.state.card }),
+          React.createElement(ChatWindow, { onSubmitWord: this.makeGuess })
         );
       }
     }
