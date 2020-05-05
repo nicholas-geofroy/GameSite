@@ -3,6 +3,10 @@
     {
       "target_word":"Green Tea",
       "banned_words":["Drink","Soft Drink","Caffene","China","Cold"]
+    },
+    {
+      "target_word":"Mother",
+      "banned_words":["Grandparent","Father","Mom","Children","Parent"]
     }
   ]
 }

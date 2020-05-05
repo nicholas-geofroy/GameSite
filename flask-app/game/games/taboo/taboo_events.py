@@ -2,6 +2,7 @@ from game.games.taboo.taboo import TabooState, Taboo
 import json
 import enum
 from flask_login import current_user
+from game.app import db
 
 
 class TabooMessageType(enum.Enum):
@@ -25,7 +26,9 @@ def handle_event(message, game):
        and current_user.id == giver_id:
         state.next_card()
     if type == TabooMessageType.GUESS_WORD.value \
-       and current_user.id in state.get_current_team():
+       and not current_user.id == giver_id:
         state.guess_word(message['guess'])
 
+    game.game_state = json.dumps(state.as_dict())
+    db.session.commit()
     return Taboo.get_messages(state)

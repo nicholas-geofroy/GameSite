@@ -55,7 +55,7 @@ class TabooState:
     def get_current_card(self):
         ordering = self.context['order']
         cur_card_idx = self.context['cur_card']
-        return taboo_cards[ordering[cur_card_idx]]
+        return taboo_cards[ordering[cur_card_idx % len(taboo_cards)]]
 
     def next_card(self):
         self.context['cur_card'] += 1
@@ -63,13 +63,13 @@ class TabooState:
 
     def guess_word(self, guess):
         current_card = self.get_current_card()
+        print(f'guess word: guess <{guess}>')
 
-        if current_card.target_word.lower() == guess.lower():
+        if current_card['target_word'].lower() == guess.lower():
+            print("point!")
             self._give_point()
-            return True
-        elif guess.lower() in [c.lower() for c in current_card.banned_words]:
             self.next_card()
-            raise BannedGuess(f"{guess} is a banned word")
+            return True
 
     def _give_point(self):
         current_team = self.get_current_team_idx()
@@ -83,7 +83,8 @@ class TabooState:
         return {
             'shared_state': {
                 'giver': players[cur_team_idx][cur_giver_idx]['id'],
-                'players': players
+                'players': players,
+                'points':self.context['points']
             },
             'giver_state': {
                 'card': self.get_current_card()
